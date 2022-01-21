@@ -43,18 +43,18 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Fire1"",
+                    ""type"": ""Button"",
+                    ""id"": ""8de88174-3d96-40b3-983b-2bc59c4dffb0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""e4617dbe-0822-4857-a0ef-4743c6d19197"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press""
-                },
-                {
-                    ""name"": ""sport"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""8ed4aa7f-994b-4fe0-b72f-dcb9e08175fb"",
-                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": ""Press""
                 },
@@ -300,61 +300,6 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""udlr"",
-                    ""id"": ""1a0a5ab1-e8a9-4d63-9cbc-912559ce0928"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""sport"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""86899e90-f1ce-42c9-9c93-13a80321c983"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""sport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""9a431552-4c65-4887-83a0-bd202275acbd"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""sport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""52624322-12fa-4d7b-a9e2-8feb66b67e77"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""sport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""b55bcc3d-29dd-4b08-b0af-deac2eb54480"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""sport"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""66990f6b-6c27-4314-a201-e0186b269017"",
                     ""path"": ""2DVector(mode=2)"",
@@ -408,6 +353,17 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""CameraControl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a73effe4-2447-4eba-891a-8cce9982dd2d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Fire1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -986,8 +942,8 @@ public class @PlayerController : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_Fire1 = m_Player.FindAction("Fire1", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_sport = m_Player.FindAction("sport", throwIfNotFound: true);
         m_Player_CameraControl = m_Player.FindAction("CameraControl", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1053,8 +1009,8 @@ public class @PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_Fire1;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_sport;
     private readonly InputAction m_Player_CameraControl;
     public struct PlayerActions
     {
@@ -1063,8 +1019,8 @@ public class @PlayerController : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @Fire1 => m_Wrapper.m_Player_Fire1;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @sport => m_Wrapper.m_Player_sport;
         public InputAction @CameraControl => m_Wrapper.m_Player_CameraControl;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1084,12 +1040,12 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Fire1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire1;
+                @Fire1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire1;
+                @Fire1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire1;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @sport.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSport;
-                @sport.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSport;
-                @sport.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSport;
                 @CameraControl.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraControl;
                 @CameraControl.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraControl;
                 @CameraControl.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraControl;
@@ -1106,12 +1062,12 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @Fire1.started += instance.OnFire1;
+                @Fire1.performed += instance.OnFire1;
+                @Fire1.canceled += instance.OnFire1;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @sport.started += instance.OnSport;
-                @sport.performed += instance.OnSport;
-                @sport.canceled += instance.OnSport;
                 @CameraControl.started += instance.OnCameraControl;
                 @CameraControl.performed += instance.OnCameraControl;
                 @CameraControl.canceled += instance.OnCameraControl;
@@ -1274,8 +1230,8 @@ public class @PlayerController : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnFire1(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnSport(InputAction.CallbackContext context);
         void OnCameraControl(InputAction.CallbackContext context);
     }
     public interface IUIActions

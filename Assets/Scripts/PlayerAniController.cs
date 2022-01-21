@@ -7,7 +7,10 @@ public class PlayerAniController : MonoBehaviour
 {
     public Animator humanAnimator;
 
-
+    private void Awake()
+    {
+        humanAnimator = GetComponent<Animator>();
+    }
     private void Start()
     {
         InputManager.Instance.AddMoveEvent(InputManager.Instance.PlayerController.Player.Move, StartControlMove, PerformedControlMove, CancelControlMove);
@@ -19,11 +22,37 @@ public class PlayerAniController : MonoBehaviour
             }, 
             (InputAction.CallbackContext obj) => 
             {
-                Debug.Log("PerformedControlJump");
+                Debug.Log("PerformedControl Jump");
             }, 
             (InputAction.CallbackContext obj) => 
             {
-                Debug.Log("CancelControlJump");
+                Debug.Log("CancelControl Jump");
+            });
+        InputManager.Instance.AddMoveEvent(InputManager.Instance.PlayerController.Player.Fire,
+            (InputAction.CallbackContext obj) =>
+            {
+                 Debug.Log("StartControl Fire");
+            },
+            (InputAction.CallbackContext obj) =>
+            {
+                Debug.Log("PerformedControl Fire");
+            },
+            (InputAction.CallbackContext obj) =>
+            {
+                Debug.Log("CancelControl Fire");
+            });
+        InputManager.Instance.AddMoveEvent(InputManager.Instance.PlayerController.Player.Fire1,
+            (InputAction.CallbackContext obj) =>
+            {
+                Debug.Log("StartControl Fire1");
+            },
+            (InputAction.CallbackContext obj) =>
+            {
+                Debug.Log("PerformedControl Fire1");
+            },
+            (InputAction.CallbackContext obj) =>
+            {
+                Debug.Log("CancelControl Fire1");
             });
     }
     public void StartControlMove(InputAction.CallbackContext obj)
@@ -34,8 +63,8 @@ public class PlayerAniController : MonoBehaviour
     {
         Debug.Log("PerformedControlMove");
         Vector2 vec2 = obj.ReadValue<Vector2>();
-        humanAnimator.SetFloat("x", vec2.x * 2);
-        humanAnimator.SetFloat("y", vec2.y * 2);
+        humanAnimator.SetFloat("x", vec2.x * 1);
+        humanAnimator.SetFloat("y", vec2.y * 1);
     }
 
     public void CancelControlMove(InputAction.CallbackContext obj)
